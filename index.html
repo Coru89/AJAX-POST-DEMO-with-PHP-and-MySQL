@@ -1,0 +1,90 @@
+<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+
+<!-- <script src="js/json.js"></script> -->
+
+<div class="list" id="output1"><strong></strong></div>
+<div class="list" id="output2"><strong></strong></div>
+
+
+
+<form name="TestForm" action="test.php" method="post">
+	First: <input type="text" name="fname" id="fname" value="Corey" >
+	Last:  <input type="text" name="lname" id="lname" value="Keller" >
+	Age: <input type="number" name="Age" id="age" value="28" >
+	<input type="button" name="" value="Send Via AJAX" onclick="postData()">
+	<input type="submit">
+	<div id="status"></div>
+</form>
+
+<script>
+var output1 = document.getElementById('output1');
+var astatus = document.getElementById('status');
+
+
+function postData() {
+	var firstName = document.getElementById('fname').value;
+	var lastName = document.getElementById('lname').value;
+	var age = document.getElementById('age').value;
+	var formData = "fname="+firstName+"&lname="+lastName+"&age="+age;
+	console.log(formData);
+
+	var hr = new XMLHttpRequest();
+	var URL = "test.php";
+
+	hr.open("POST", URL, true);
+	hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	hr.send(formData);
+	astatus.innerHTML = "proccessing...";
+
+
+
+	hr.onreadystatechange = function () {
+		if(this.readyState == 4 && this.status == 200) {
+				console.log(hr);
+				var myObj = JSON.parse(hr.responseText);
+				astatus.innerHTML = myObj.xstatus + " " + myObj.id;
+				console.log(myObj);
+
+				if (myObj.connected === true) {
+					astatus.innerHTML += '<br><span style="color:green">Connected to database</span>'
+				} else {
+					'<br><span style="color:Red">Cannot establish database connection</span>'
+				}
+		}
+	}
+
+
+
+}
+
+
+
+
+
+// var hrURL = "output.html";
+
+
+
+
+
+
+
+
+
+
+
+
+// var hr = JSON.parse(hr1);
+//
+// console.log(hr1);
+// console.log(hr);
+//
+// for (var i = 0; i < hr.people.length; i++) {
+// output1.innerHTML += "<br>" +  hr.people[i].firstName + " " +hr.people[i].lastName;
+// }
+//
+// for (var i = 0; i < hr.places.length; i++) {
+// output2.innerHTML += "<br>" +  hr.places[i].location + " (" + hr.places[i].latitude + ", " + hr.places[i].longtitude + ")"
+// }
+
+</script>
