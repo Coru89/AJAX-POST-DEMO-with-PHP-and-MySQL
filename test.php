@@ -3,8 +3,10 @@
 	$arr['first'] = $_POST['fname'];
 	$arr['last'] = $_POST['lname'];
 	$arr['age'] = $_POST['age'];
+	//creating an array with the data from
 
-	$con=new mysqli("localhost","root","","ajaxdemo");
+	$con = new mysqli("localhost","root","","ajaxdemo");
+	//connecting to the database
 	$sql = "INSERT INTO `names` (`first`, `last`, `age`) VALUES ('".$arr['first']."', '".$arr['last']."', '".$arr['age']."' );";
 
 	if($con->ping()){

@@ -7,16 +7,118 @@
 
 
 
-<form name="TestForm" action="test.php" method="post">
-	First: <input type="text" name="fname" id="fname" value="Corey" >
-	Last:  <input type="text" name="lname" id="lname" value="Keller" >
-	Age: <input type="number" name="Age" id="age" value="28" >
+<form name="TestForm" action="test.php" method="post" id="TestForm">
+	First: <input type="text" name="fname" id="fname" value="" >
+	Last:  <input type="text" name="lname" id="lname" value="" >
+	Age: <input type="number" name="Age" id="age" value="" >
 	<input type="button" name="" value="Send Via AJAX" onclick="postData()">
 	<input type="submit">
 	<div id="status"></div>
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
 
 <script>
+	$(document).ready(function(){
+
+		$('#TestForm').submit(function(e){
+			//using e for event
+			e.preventDefault();
+			$('#status').html("processing...");
+			//this prevents the refresh of the page on submit
+			var url = "test6.php";
+			// var url = "js/json.js";
+			var formData = {
+				fname : $('#' + 'fname').val(),
+				lname : $('#' + 'lname').val(),
+				age : $('#' + 'age').val()
+			}
+
+			$.ajax({
+				url: url,
+				data: formData,
+				type: "POST",
+				dataType: "json",
+				success: function (data, status, abc) {
+					console.log("data:")
+					console.log(data);
+					console.log("status:")
+					console.log(status);
+					console.log("xhr:");
+					console.log(abc);
+
+					$('#status').html(status);
+					$('#output1').html(data.first + " " + data.last + " (" + data.id + ")" + " was added to the database");
+				},
+				error: function(data, status, xhr){
+					console.log(data);
+					console.log(status);
+					console.log(xhr);
+					$('#status').html(status);
+				}
+			})
+		})
+	})
+</script>
+
+
+<!-- USING $.post -->
+<!-- <script>
+	$(document).ready(function(){
+
+		$('#TestForm').submit(function(e){
+			//using e for event
+			e.preventDefault();
+			$('#status').html("processing...");
+			//this prevents the refresh of the page on submit
+			var url = "test.php";
+			// var url = "js/json.js";
+			var formData = {
+				fname : $('#' + 'fname').val(),
+				lname : $('#' + 'lname').val(),
+				age : $('#' + 'age').val()
+			}
+			$.post(url, formData, function(data, status, xhr) {
+				console.log(data);
+				console.log(status);
+				console.log(xhr);
+				console.log(JSON.parse(data));
+				myObj = JSON.parse(data);
+				$('#status').html(status);
+				$('#output1').html(myObj.first + " " + myObj.last + "(" + myObj.id + ")" + " was added to the database");
+			})
+		})
+	})
+</script> -->
+
+
+<!-- JQUERY GET EXAMPLE -->
+<!-- <script>
+	var url = "https://api.myjson.com/bins/qnxi1";
+	// var url = "js/json.js";
+
+	$.get(url, function(data, status) {
+		console.log(data);
+		console.log(status);
+		$('#output1').html(data.people[0].firstName);
+	})
+</script> -->
+
+<!-- Outputting content to HTML element -->
+<!-- <script>
+$(document).ready(function(){
+	$('#output1').load('output.html'); //loading in HTML file and displaying on page.
+})
+</script> -->
+
+
+
+
+
+<!-- VANILLA JS -->
+<!-- <script>
 var output1 = document.getElementById('output1');
 var astatus = document.getElementById('status');
 
@@ -53,25 +155,9 @@ function postData() {
 		}
 	}
 
-
-
 }
 
-
-
-
-
 // var hrURL = "output.html";
-
-
-
-
-
-
-
-
-
-
 
 
 // var hr = JSON.parse(hr1);
@@ -87,4 +173,4 @@ function postData() {
 // output2.innerHTML += "<br>" +  hr.places[i].location + " (" + hr.places[i].latitude + ", " + hr.places[i].longtitude + ")"
 // }
 
-</script>
+</script> -->
