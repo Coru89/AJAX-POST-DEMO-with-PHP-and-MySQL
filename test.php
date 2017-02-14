@@ -10,7 +10,7 @@
 	$sql = "INSERT INTO `names` (`first`, `last`, `age`) VALUES ('".$arr['first']."', '".$arr['last']."', '".$arr['age']."' );";
 
 	if($con->ping()){
-	    $arr['connected']  = true ;
+	    $arr['connected']  = true;
 	}else{
 	    $arr['connected']  = false;
 	}

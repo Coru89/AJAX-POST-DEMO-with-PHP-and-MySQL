@@ -25,39 +25,51 @@
 
 		$('#TestForm').submit(function(e){
 			//using e for event
-			e.preventDefault();
+			e.preventDefault(); 	//this prevents the refresh of the page on submit
 			$('#status').html("processing...");
-			//this prevents the refresh of the page on submit
-			var url = "test6.php";
-			// var url = "js/json.js";
-			var formData = {
-				fname : $('#' + 'fname').val(),
-				lname : $('#' + 'lname').val(),
-				age : $('#' + 'age').val()
-			}
+
+			// USING THE LONG WAY to pass formData into AJAC call
+			//  Use serialize instead!
+			// var formData = {
+			// 	fname : $('#' + 'fname').val(),
+			// 	lname : $('#' + 'lname').val(),
+			// 	age : $('#' + 'age').val()
+			// }
 
 			$.ajax({
-				url: url,
-				data: formData,
+				url: "test.php",
+				data: $(this).serialize(),
 				type: "POST",
 				dataType: "json",
-				success: function (data, status, abc) {
-					console.log("data:")
-					console.log(data);
-					console.log("status:")
-					console.log(status);
-					console.log("xhr:");
-					console.log(abc);
-
+				success: function (data, status, xhr) {
+					// console.log("data:")
+					// console.log(data);
+					// console.log("status:")
+					// console.log(status);
+					// console.log("xhr:");
+					// console.log(xhr);
 					$('#status').html(status);
 					$('#output1').html(data.first + " " + data.last + " (" + data.id + ")" + " was added to the database");
 				},
 				error: function(data, status, xhr){
-					console.log(data);
-					console.log(status);
-					console.log(xhr);
+					// console.log(data);
+					// console.log(status);
+					// console.log(xhr);
 					$('#status').html(status);
 				}
+			})
+			//.done is an "option"
+			.done(function(data){
+				console.log(data);
+				$('#status').html("DONE");
+			})
+			//another "option"
+			.fail(function(data){
+				console.log(data);
+				$('#status').html("FAIL");
+			})
+			.always(function(data){
+				$('#status').append(" Post was attempted");
 			})
 		})
 	})
